@@ -1357,7 +1357,7 @@ public abstract class AbstractWorkflowServiceTest {
 
         boolean failed = false;
         try {
-            workflowExecutor.rewind(workflowInstanceId);
+            workflowExecutor.rewind(workflowInstanceId, false);
         } catch (ApplicationException ae) {
             failed = true;
         }
@@ -1422,7 +1422,7 @@ public abstract class AbstractWorkflowServiceTest {
 
         boolean failed = false;
         try {
-            workflowExecutor.rewind(workflowInstanceId);
+            workflowExecutor.rewind(workflowInstanceId, false);
         } catch (ApplicationException ae) {
             failed = true;
         }
@@ -2951,7 +2951,7 @@ public abstract class AbstractWorkflowServiceTest {
         assertNotNull(workflow);
         assertEquals(WorkflowStatus.FAILED, workflow.getStatus());
 
-        workflowExecutor.rewind(workflow.getWorkflowId());
+        workflowExecutor.rewind(workflow.getWorkflowId(), false);
 
         // Polling for the first task should return the same task as before
         task = workflowExecutionService.poll("junit_task_1", "task1.junit.worker");
@@ -3003,7 +3003,7 @@ public abstract class AbstractWorkflowServiceTest {
 
         expectedException.expect(ApplicationException.class);
         expectedException.expectMessage(String.format("is an instance of WorkflowDef: %s and version: %d and is non restartable", JUNIT_TEST_WF_NON_RESTARTABLE, 1));
-        workflowExecutor.rewind(workflow.getWorkflowId());
+        workflowExecutor.rewind(workflow.getWorkflowId(), false);
     }
 
 
@@ -3035,7 +3035,7 @@ public abstract class AbstractWorkflowServiceTest {
         assertNotNull(es);
         assertEquals(WorkflowStatus.FAILED, es.getStatus());
 
-        workflowExecutor.rewind(es.getWorkflowId());
+        workflowExecutor.rewind(es.getWorkflowId(), false);
         es = workflowExecutionService.getExecutionStatus(wfid, true);
         assertNotNull(es);
         assertEquals(RUNNING, es.getStatus());
